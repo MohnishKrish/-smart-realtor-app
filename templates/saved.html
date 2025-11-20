@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <title>Saved Predictions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="brand">Smart Realtor</div>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a class="active">Saved Predictions</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</div>
+
+<div class="main">
+    <header>
+        <h1>Saved Predictions</h1>
+        <div class="user">Welcome, {{ username }}</div>
+    </header>
+
+    <section class="table-card">
+        <h3>Saved Predictions</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Sqft</th>
+                    <th>BHK</th>
+                    <th>Bath</th>
+                    <th>Type</th>
+                    <th>Age</th>
+                    <th>Price</th>
+                    <th>When</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for r in saved %}
+                <tr>
+                    <td>{{ r.location }}</td>
+                    <td>{{ r.sqft }}</td>
+                    <td>{{ r.bedrooms }}</td>
+                    <td>{{ r.bathrooms }}</td>
+                    <td>{{ r.property_type }}</td>
+                    <td>{{ r.age_years }}</td>
+                    <td>₹ {{ r.predicted_price }}</td>
+                    <td>{{ r.created_at }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </section>
+</div>
+
+</body>
+</html>

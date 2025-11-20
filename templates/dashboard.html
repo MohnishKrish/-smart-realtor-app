@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="utf-8">
+  <title>Dashboard - Smart Realtor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Leaflet CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="brand">Smart Realtor</div>
+    <nav>
+      <a class="active">Dashboard</a>
+<a href="{{ url_for('saved') }}">Saved Predictions</a>
+      <a href="/logout">Logout</a>
+    </nav>
+  </div>
+
+  <div class="main">
+    <header>
+      <h1>House Price Prediction</h1>
+      <div class="user">Welcome, {{ username }}</div>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <h3>Predict Price</h3>
+        <form method="POST" action="/predict">
+          <label>Location</label>
+          <select name="location" required><br>
+            {% for loc in locations %}
+            <option value="{{loc}}">{{loc}}</option>
+            {% endfor %}
+          </select><br>
+
+          <label>Square Feet</label>
+          <input name="sqft" type="number" placeholder="e.g. 1200" required><br>
+
+          <div class="row">
+            <div>
+              <label>Bedrooms</label>
+              <select name="bedrooms">
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+              </select>
+            </div><br>
+            <div>
+              <label>Bathrooms</label>
+              <select name="bathrooms">
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+              </select>
+            </div><br>
+          </div><br>
+
+          <label>Property Type</label>
+          <select name="property_type">
+            <option>Apartment</option><option>House</option><option>Villa</option>
+          </select><br>
+
+          <label>Age (years)</label>
+          <input name="age_years" type="number" value="1"><br>
+
+          <button class="primary" type="submit">Predict Price</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Predicted Price</h3>
+        <div class="price">
+          {% if predicted_price %}₹ {{ predicted_price }}{% else %}—{% endif %}
+        </div>
+
+        <h4>Price Trends</h4>
+        <canvas id="trendChart"></canvas>
+      </div>
+
+      <div class="card fullmap">
+        <h3>Map</h3>
+        <div id="map" style="height:360px;border-radius:8px;"></div>
+      </div>
+    </section>
+
+    <section class="table-card">
+      <h3>Recent Predictions</h3>
+      <table>
+       <thead>
+<tr>
+  <th>Location</th>
+  <th>Sqft</th>
+  <th>BHK</th>
+  <th>Price</th>
+  <th>When</th>
+  <th>Save</th>   <!-- ⭐ NEW -->
+</tr>
+</thead>
+        <tbody>
+        {% for r in recent %}
+         <tr>
+  <td>{{ r.location }}</td>
+  <td>{{ r.sqft }}</td>
+  <td>{{ r.bedrooms }}</td>
+  <td>₹ {{ r.predicted_price }}</td>
+  <td>{{ r.created_at if r.created_at is defined else '' }}</td>
+
+  <!-- ⭐ SAVE BUTTON COLUMN -->
+ <td>
+    <form method="POST" action="/save_prediction">
+        <input type="hidden" name="id" value="{{ r.id }}">
+        <button type="submit" class="primary">Save</button>
+    </form>
+</td>
+</tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+<script>
+  const trendMonths = JSON.parse('{{ trend_months | tojson | safe }}');
+  const trendPrices = JSON.parse('{{ trend_prices | tojson | safe }}');
+  const coords = JSON.parse('{{ coords | tojson | safe }}');
+</script>
+
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

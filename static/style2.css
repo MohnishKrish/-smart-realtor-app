@@ -1,0 +1,115 @@
+/* Entire Page */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Background with moving city skyline */
+body {
+  background: #0f0f0f;
+  overflow: hidden;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* City Skyline Animation */
+.city {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: url("/static/city2.png") center center no-repeat;
+  background-size: cover;
+  animation: zoomIn 15s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(1); }
+  to { transform: scale(1.07); }
+}
+
+/* Login / Signup Card */
+.login-container {
+   position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  width: 320px;
+  text-align: center;
+  z-index: 1; /* Keeps it above the city animation */
+}
+
+/* Heading */
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Input Groups */
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+/* Input Fields */
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Button */
+button {
+  background: #5563DE;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  width: 100%;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #4451c4;
+}
+
+/* Error Message */
+.error {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Signup Text */
+.signup-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.signup-text a {
+  color: #5563DE;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
