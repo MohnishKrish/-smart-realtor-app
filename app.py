@@ -15,7 +15,7 @@ app.permanent_session_lifetime = timedelta(days=30)
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="moni1612",
+    password="******",
     database="login_system"
 )
 cursor = db.cursor(dictionary=True)
